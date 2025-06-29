@@ -1,0 +1,135 @@
+From f107a5b99c1eb5942db9aaaeff1270019f548b85 Mon Sep 17 00:00:00 2001
+From: RenzoQuispe <renzo123cd@gmail.com>
+Date: Sun, 22 Jun 2025 04:01:03 -0500
+Subject: [PATCH 1/2] feat(tf): (issue #1) agregar iac/main.tf con
+ infraestructura local
+
+---
+ iac/main.tf | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+ create mode 100644 iac/main.tf
+
+diff --git a/iac/main.tf b/iac/main.tf
+new file mode 100644
+index 0000000..ba0d191
+--- /dev/null
++++ b/iac/main.tf
+@@ -0,0 +1,54 @@
++provider "kubernetes" {
++  config_path = "~/.kube/config"
++}
++
++resource "kubernetes_deployment" "app" {
++    
++  metadata {
++    name = "miapp"
++    labels = {
++      app = "miapp"
++    }
++  }
++
++  spec {
++    replicas = 2
++    selector {
++      match_labels = {
++        app = "miapp"
++      }
++    }
++    template {
++      metadata {
++        labels = {
++          app = "miapp"
++        }
++      }
++      spec {
++        container {
++          name  = "miapp"
++          image = "nginx:1.25"
++          port {
++            container_port = 80
++          }
++        }
++      }
++    }
++  }
++}
++
++resource "kubernetes_service" "app" {
++  metadata {
++    name = "miapp-service"
++  }
++  spec {
++    selector = {
++      app = kubernetes_deployment.app.metadata[0].labels.app
++    }
++    port {
++      port        = 80
++      target_port = 80
++    }
++    type = "ClusterIP"
++  }
++}
+-- 
+2.47.2
+
+
+From 7328df6f62ad72635b1c04d44f74d424bb91d622 Mon Sep 17 00:00:00 2001
+From: RenzoQuispe <renzo123cd@gmail.com>
+Date: Sun, 22 Jun 2025 16:00:33 -0500
+Subject: [PATCH 2/2] refactor(tf): actualizar nombres genericos "miapp" en 
+ iac/main.tf con
+
+---
+ iac/main.tf | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/iac/main.tf b/iac/main.tf
+index ba0d191..5a3e90f 100644
+--- a/iac/main.tf
++++ b/iac/main.tf
+@@ -5,9 +5,9 @@ provider "kubernetes" {
+ resource "kubernetes_deployment" "app" {
+     
+   metadata {
+-    name = "miapp"
++    name = "nginx-deployment"
+     labels = {
+-      app = "miapp"
++      app = "nginx-app-deployment"
+     }
+   }
+ 
+@@ -15,18 +15,18 @@ resource "kubernetes_deployment" "app" {
+     replicas = 2
+     selector {
+       match_labels = {
+-        app = "miapp"
++        app = "nginx-app"
+       }
+     }
+     template {
+       metadata {
+         labels = {
+-          app = "miapp"
++          app = "nginx-app"
+         }
+       }
+       spec {
+         container {
+-          name  = "miapp"
++          name  = "web-contenedor"
+           image = "nginx:1.25"
+           port {
+             container_port = 80
+@@ -43,7 +43,7 @@ resource "kubernetes_service" "app" {
+   }
+   spec {
+     selector = {
+-      app = kubernetes_deployment.app.metadata[0].labels.app
++      app = "nginx-app"
+     }
+     port {
+       port        = 80
+-- 
+2.47.2
+
