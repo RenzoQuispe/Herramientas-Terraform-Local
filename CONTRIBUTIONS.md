@@ -18,3 +18,7 @@ Pull request grupal: [#20](https://github.com/Grupo-9-CC3S2/Proyecto-9-PC4/pull/
 Commit: [`test(py): actualizar test_ state_comparador.py con test de las funciones cargar_tfstate, obtener_estado_deseado, y obtener_estado_real`](https://github.com/Grupo-9-CC3S2/Proyecto-9-PC4/pull/20/commits/0adfbf67078cf2668baf20dce2d8b1b141a7c97e). 
 Pull request grupal: [#20](https://github.com/Grupo-9-CC3S2/Proyecto-9-PC4/pull/20)
 
+# Sprint 3
+- 2025-06-29: Implemente el script chaos_test.sh que simula un Chaos Testing minimal para un clúster Kubernetes, induciendo cambios intencionales en recursos clave para verificar que las desviaciones se detecten correctamente con state_comparador.py.
+Commit: [`feat(sh): agregar chaos_test.sh con chaos testing minimal`](https://github.com/Grupo-9-CC3S2/Proyecto-9-PC4/pull/22/commits/87fc51066dd40587ee3972424427ae8231aa1879). 
+Pull request grupal: [#22](https://github.com/Grupo-9-CC3S2/Proyecto-9-PC4/pull/22)
