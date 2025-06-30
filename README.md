@@ -41,6 +41,11 @@ Defini una infraestructura deseada el cual sera usado para hacer simulaciones de
 - El Deployment nginx-deployment crea 2 pods  con contenedores docker nginx:1.25 expuestos en el puerto 80 
 - El Service miapp-service de tipo ClusterIP expone internamente los pods y balancea trafico entre ellos
 
+#### Sprint 2
+Implemente pruebas unitarias en tests/test_state_comparador.py para la logica de comparacion de estado y las funciones dentro de state_comparador.py, se aplicaron principios SOLID a los tests.
+
+#### Sprint 3
+Implemente el script chaos_test.sh que simula un Chaos Testing minimal para un clúster Kubernetes, induciendo cambios intencionales en recursos clave para verificar que las desviaciones se detecten correctamente con state_comparador.py. A diferencia de las pruebas unitarias con pytest, que validan la correcta funcionalidad de fragmentos de codigo aislados, este script prueba la resiliencia de la herramienta en una simulacion de despligue real, asegurando que la infraestructura se mantenga alineada con su configuracion declarada con terraform.
 
 ### Requisitos técnicos
 ```
@@ -63,6 +68,7 @@ kubectl get pods
 kubectl get svc
 ```
 ### Ejecucion de pruebas y cobertura
+#### Pruebas unitarias
 ```markdown
 git clone https://github.com/RenzoQuispe/Proyecto-9-Personal.git
 cd Proyecto-9-Personal
@@ -70,4 +76,17 @@ python3 -m venv venv
 source venv/bin/activate
 pip install pytest pytest-cov prettytable
 pytest --cov=scripts -v
+```
+#### Chaos testing minimal
+```markdown
+git clone https://github.com/RenzoQuispe/Proyecto-9-Personal.git
+cd Proyecto-9-Personal
+# tener creado los recursos
+cd iac
+terraform init
+terraform apply
+# chaos testing minimal
+cd ..
+chmod +x scripts/chaos_test.sh
+./scripts/chaos_test.sh 
 ```
