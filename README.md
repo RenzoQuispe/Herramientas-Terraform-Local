@@ -62,3 +62,12 @@ kubectl get deployments
 kubectl get pods
 kubectl get svc
 ```
+### Ejecucion de pruebas y cobertura
+```markdown
+git clone https://github.com/RenzoQuispe/Proyecto-9-Personal.git
+cd Proyecto-9-Personal
+python3 -m venv venv
+source venv/bin/activate
+pip install pytest pytest-cov prettytable
+pytest --cov=scripts -v
+```
